@@ -1,5 +1,6 @@
 const exportBtn = document.getElementById("exportBtn");
 const statusEl = document.getElementById("status");
+const includeTitlesEl = document.getElementById("includeTitles");
 
 function formatDate(date) {
   const year = date.getFullYear();
@@ -11,9 +12,13 @@ function formatDate(date) {
   return `${year}-${month}-${day}_${hour}-${minute}-${second}`;
 }
 
-function buildExportContent(tabs) {
+function buildExportContent(tabs, includeTitles) {
   return tabs
-    .map((tab) => `${tab.title || "(No Title)"} - ${tab.url || "(No URL)"}`)
+    .map((tab) => {
+      const title = tab.title || "(No Title)";
+      const url = tab.url || "(No URL)";
+      return includeTitles ? `${title} - ${url}` : url;
+    })
     .join("\n");
 }
 
@@ -22,7 +27,8 @@ async function exportTabs() {
     statusEl.textContent = "Collecting tabs...";
 
     const tabs = await chrome.tabs.query({ currentWindow: true });
-    const content = buildExportContent(tabs);
+    const includeTitles = includeTitlesEl.checked;
+    const content = buildExportContent(tabs, includeTitles);
 
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);

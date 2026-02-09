@@ -32,6 +32,25 @@
         color: #f9fafb;
       }
 
+      .options {
+        margin: 0 0 12px;
+      }
+
+      .checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #d1d5db;
+        user-select: none;
+      }
+
+      .checkbox input {
+        width: 15px;
+        height: 15px;
+        accent-color: #3b82f6;
+      }
+
       button {
         width: 100%;
         border: 0;
@@ -64,6 +83,12 @@
   <body>
     <main class="container">
       <h1>Current Window Tabs Export</h1>
+      <div class="options">
+        <label class="checkbox">
+          <input id="includeTitles" type="checkbox" checked />
+          <span>Include titles</span>
+        </label>
+      </div>
       <button id="exportBtn" type="button">Export Tabs</button>
       <p id="status" aria-live="polite"></p>
     </main>
