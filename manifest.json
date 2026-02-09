@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Current Window Tabs Exporter",
+  "version": "1.0.0",
+  "description": "Export all open tabs in the current window to a text file.",
+  "permissions": ["tabs", "downloads"],
+  "action": {
+    "default_title": "Export Tabs",
+    "default_popup": "popup.html"
+  }
+}
