@@ -17,9 +17,9 @@ function buildExportContent(tabs, includeTitles) {
     .map((tab) => {
       const title = tab.title || "(No Title)";
       const url = tab.url || "(No URL)";
-      return includeTitles ? `${title} - ${url}` : url;
+      return includeTitles ? `${title}\n${url}` : `${url}`;
     })
-    .join("\n");
+    .join("\n\n");
 }
 
 async function exportTabs() {
