@@ -34,6 +34,39 @@ A simple Chrome Extension (Manifest V3) that exports all open tabs from the curr
 3. Click **Export Tabs**.
 4. The file is downloaded automatically.
 
+## Example Output
+
+Assume these open tabs:
+
+- Title: `OpenAI`, URL: `https://openai.com/`
+- Title: `GitHub`, URL: `https://github.com/`
+
+`URLs only`:
+
+```txt
+https://openai.com/
+
+https://github.com/
+```
+
+`Title + URL`:
+
+```txt
+OpenAI
+https://openai.com/
+
+GitHub
+https://github.com/
+```
+
+`Markdown links`:
+
+```txt
+[OpenAI](https://openai.com/)
+
+[GitHub](https://github.com/)
+```
+
 ## Permissions
 
 - `tabs` - read tabs in the current window
