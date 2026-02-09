@@ -1,6 +1,7 @@
 const exportBtn = document.getElementById("exportBtn");
 const statusEl = document.getElementById("status");
 const includeTitlesEl = document.getElementById("includeTitles");
+const useMarkdownLinksEl = document.getElementById("useMarkdownLinks");
 
 function formatDate(date) {
   const year = date.getFullYear();
@@ -12,12 +13,28 @@ function formatDate(date) {
   return `${year}-${month}-${day}_${hour}-${minute}-${second}`;
 }
 
-function buildExportContent(tabs, includeTitles) {
+function escapeMarkdownText(value) {
+  return value.replace(/[[\]\\]/g, "\\$&");
+}
+
+function escapeMarkdownUrl(value) {
+  return value.replace(/[()\\]/g, "\\$&");
+}
+
+function buildExportContent(tabs, includeTitles, useMarkdownLinks) {
   return tabs
     .map((tab) => {
       const title = tab.title || "(No Title)";
       const url = tab.url || "(No URL)";
-      return includeTitles ? `${title}\n${url}` : `${url}`;
+      if (!includeTitles) {
+        return `${url}`;
+      }
+      if (useMarkdownLinks) {
+        const safeTitle = escapeMarkdownText(title);
+        const safeUrl = escapeMarkdownUrl(url);
+        return `[${safeTitle}](${safeUrl})`;
+      }
+      return `${title}\n${url}`;
     })
     .join("\n\n");
 }
@@ -28,7 +45,8 @@ async function exportTabs() {
 
     const tabs = await chrome.tabs.query({ currentWindow: true });
     const includeTitles = includeTitlesEl.checked;
-    const content = buildExportContent(tabs, includeTitles);
+    const useMarkdownLinks = useMarkdownLinksEl.checked;
+    const content = buildExportContent(tabs, includeTitles, useMarkdownLinks);
 
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -52,3 +70,10 @@ async function exportTabs() {
 }
 
 exportBtn.addEventListener("click", exportTabs);
+
+function syncMarkdownOptionState() {
+  useMarkdownLinksEl.disabled = !includeTitlesEl.checked;
+}
+
+includeTitlesEl.addEventListener("change", syncMarkdownOptionState);
+syncMarkdownOptionState();

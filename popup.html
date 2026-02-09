@@ -34,6 +34,8 @@
 
       .options {
         margin: 0 0 12px;
+        display: grid;
+        gap: 8px;
       }
 
       .checkbox {
@@ -87,6 +89,10 @@
         <label class="checkbox">
           <input id="includeTitles" type="checkbox" checked />
           <span>Include titles</span>
+        </label>
+        <label class="checkbox">
+          <input id="useMarkdownLinks" type="checkbox" />
+          <span>Markdown links</span>
         </label>
       </div>
       <button id="exportBtn" type="button">Export Tabs</button>
